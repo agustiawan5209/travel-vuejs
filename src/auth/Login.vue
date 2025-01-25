@@ -25,6 +25,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
     data() {
         return {
@@ -33,14 +35,26 @@ export default {
         };
     },
     methods: {
-        handleLogin() {
-            // Handle login logic here
-            console.log('Email:', this.email);
-            console.log('Password:', this.password);
+        async handleLogin() {
+            try {
+                // const response = await axios.post('https://your-api-endpoint.com/login', {
+                //     email: this.email,
+                //     password: this.password
+                // });
+                // const token = response.data.token;
+                // // Save the token to localStorage or Vuex store
+                // localStorage.setItem('token', token);
+                // Redirect to another page or perform other actions
+                this.$router.push('/dashboard');
+            } catch (error) {
+                console.error('Login failed:', error);
+                // Handle error, show notification, etc.
+            }
         }
     }
 };
 </script>
+
 
 <style scoped>
 /* No additional styles needed as Tailwind CSS is used */

@@ -45,7 +45,7 @@ export default {
                 // // Save the token to localStorage or Vuex store
                 // localStorage.setItem('token', token);
                 // Redirect to another page or perform other actions
-                this.$router.push('/dashboard');
+                this.$router.push('/admin/dashboard');
             } catch (error) {
                 console.error('Login failed:', error);
                 // Handle error, show notification, etc.

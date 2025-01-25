@@ -9,7 +9,7 @@ import {
 export const isLoading = ref(false);
 
 // Layout
-// import AdminLayout from "../layouts/AdminLayout.vue";
+import AdminLayout from "../layouts/AdminLayout.vue";
 import MainLayout from "../layouts/MainLayout.vue";
 
 // Komponen
@@ -18,6 +18,9 @@ import Home from "../views/Home.vue";
 import Login from "../auth/Login.vue";
 import Register from "../auth/Register.vue";
 
+
+// Komponen Admin
+import DashboardAdmin from "../views/admin/Dashboard.vue";
 const routes = [
 
     // Guest
@@ -50,6 +53,17 @@ const routes = [
             },
         ],
     },
+    {
+        path: '/admin',
+        component : AdminLayout,
+        children: [
+            {
+                path: 'dashboard',
+                name: 'dashboard',
+                component: () => DashboardAdmin
+            }
+        ]
+    }
 
 ]
 

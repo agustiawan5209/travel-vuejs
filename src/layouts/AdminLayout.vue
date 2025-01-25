@@ -1,66 +1,71 @@
 <script setup>
-// import { isLoading } from '../router/router';
+import { ref, computed } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+
+const router = useRouter();
+// Fungsi Untuk menghandle ketika tombol sidebar di klik
+const isSidebarVisible = ref(false);
+
+function toggleSidebar() {
+  isSidebarVisible.value = !isSidebarVisible.value;
+}
+
+// Fungsi untuk mengecek apakah layar besar atau tidak
+const isLargeScreen = computed(() => window.innerWidth >= 768);
+
+window.addEventListener('resize', () => {
+  isSidebarVisible.value = window.innerWidth >= 768;
+});
+
+// fungsi untuk logout
+function logout() {
+  router.push('/');
+}
 
 </script>
+
 <template>
-  <!-- Navbar -->
-  <nav class="bg-white border-gray-200 z-[9999]">
-    <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-      <a href="https://flowbite.com/" class="flex items-center space-x-3 rtl:space-x-reverse">
-        <img src="/public/image/pngwing.com.png" class="h-8" alt="Flowbite Logo" />
-        <span class="self-center text-2xl font-semibold whitespace-nowrap">Travel Vue.Js ||<strong>Current route
-            path:</strong> {{ $route.fullPath }}</span>
-      </a>
-      <button data-collapse-toggle="navbar-default" type="button"
-        class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 "
-        aria-controls="navbar-default" aria-expanded="false">
-        <span class="sr-only">Open main menu</span>
-        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
-          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M1 1h15M1 7h15M1 13h15" />
-        </svg>
-      </button>
-      <div class="hidden w-full md:block md:w-auto" id="navbar-default">
-        <ul
-          class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white ">
-            <li>
-            <router-link :to="{ name: 'home' }"
-              class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-purple-700 md:p-2"
-              aria-current="page" active-class="text-white bg-purple-700">Home</router-link>
-            </li>
-            <li>
-            <router-link to="about"
-              class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-purple-700 md:p-2"
-              active-class="text-white bg-purple-700">About</router-link>
-            </li>
-            <li>
-            <router-link to="login"
-              class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-purple-700 md:p-2"
-              active-class="text-white bg-purple-700">login</router-link>
-            </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+  <div class="min-h-screen flex flex-col">
+    <!-- Header -->
+    <header class="bg-gray-800 text-white p-4 flex justify-between items-center">
+      <h1 class="text-2xl font-bold">Admin Dashboard</h1>
+      <button class="bg-primary px-4 py-2 rounded" @click="logout">Logout</button>
+      <button class="md:hidden bg-primary px-4 py-2 rounded" @click="toggleSidebar">Menu</button>
+    </header>
 
-  <!-- Content -->
-  <main>
-    <!-- Tambahkan transition -->
-    <router-view v-slot="{ Component }">
-      <transition name="fade">
-        <component :is="Component" />
+    <!-- Main Content -->
+    <div class="flex flex-1">
+      <!-- Sidebar -->
+      <transition name="slide-left">
+        <aside v-show="isSidebarVisible || isLargeScreen" class="bg-primary text-white w-64 p-6 md:block">
+          <nav>
+            <ul>
+              <li class="mb-4">
+                <a href="#"
+                  class="block py-2 px-4 text-base md:text-lg rounded hover:bg-gray-700 hover:text-gray-300 transition duration-300">Dashboard</a>
+              </li>
+              <li class="mb-4">
+                <a href="#"
+                  class="block py-2 px-4 text-base md:text-lg rounded hover:bg-gray-700 hover:text-gray-300 transition duration-300">Users</a>
+              </li>
+              <li class="mb-4">
+                <a href="#"
+                  class="block py-2 px-4 text-base md:text-lg rounded hover:bg-gray-700 hover:text-gray-300 transition duration-300">Settings</a>
+              </li>
+            </ul>
+          </nav>
+        </aside>
       </transition>
-    </router-view>
-  </main>
 
-
-  <!-- Footer -->
-  <footer class=" divide-y bg-white border-t shadow-2xl">
-    
-    <div class="py-6 text-sm text-center bg-primary">Travel Vue.js ©2025. All rights reserved.</div>
-  </footer>
+      <!-- Tambahkan transition -->
+      <router-view v-slot="{ Component }">
+        <transition name="fade">
+          <component :is="Component" />
+        </transition>
+      </router-view>
+    </div>
+  </div>
 </template>
-
 
 <style>
 /* Efek transisi fade */
@@ -68,9 +73,21 @@
 .fade-leave-active {
   transition: opacity 0.5s ease;
 }
+
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+
+/* Efek transisi slide-left */
+.slide-left-enter-active,
+.slide-left-leave-active {
+  transition: transform 0.3s ease;
+}
+
+.slide-left-enter-from,
+.slide-left-leave-to {
+  transform: translateX(-100%);
 }
 
 /* Loader styling */
@@ -87,6 +104,7 @@
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }

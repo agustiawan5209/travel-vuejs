@@ -11,7 +11,25 @@ export const isLoading = ref(false);
 
 import About from "../views/About.vue";
 import Home from "../views/Home.vue";
-const routes = [{
+import Login from "../auth/Login.vue";
+import Register from "../auth/Register.vue";
+const routes = [
+    // AUTH
+
+    {
+        path: '/login',
+        name: 'login',
+        component: Login,
+    },
+
+    {
+        path: '/register',
+        name: 'register',
+        component: Register,
+    },
+    
+    // Guest
+    {
         path: '/',
         name: 'home',
         component: Home,

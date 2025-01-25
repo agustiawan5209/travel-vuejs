@@ -1,71 +1,128 @@
 <script setup>
-import MainLayout from './layouts/MainLayout.vue';
-import CardTravel from './components/CardTravel.vue';
+import { isLoading } from './router';
 
-const travelSchedules = [
-  {
-    id: 1,
-    image: '/public/image/andi-hasbi-jaya-AouNcNtdDLc-unsplash.jpg',
-    title: 'Destination 1',
-    price: '$1000',
-    quota: 50,
-    description: 'Enjoy a wonderful trip to Destination 1 with beautiful scenery and amazing experiences.'
-  },
-  {
-    id: 2,
-    image: '/public/image/datingjungle-s7ky-xBtrNY-unsplash.jpg',
-    title: 'Destination 2',
-    price: '$1500',
-    quota: 30,
-    description: 'Discover the beauty of Destination 2 with our exclusive travel package.'
-  },
-  {
-    id: 3,
-    image: '/public/image/pat-whelen-8nxYytwnNBU-unsplash.jpg',
-    title: 'Destination 3',
-    price: '$2000',
-    quota: 40,
-    description: 'Experience the adventure of a lifetime at Destination 3 with our premium travel package.'
-  }
-];
 </script>
-
 <template>
-  <MainLayout>
-    <section id="header" class=" container mx-auto py-4 px-5">
-      <div
-        class=" bg-gradient-to-r from-purple-400 via-purple-500 to-purple-600 flex flex-col items-center justify-center min-h-[60vh] text-white">
-        <div class="flex flex-col md:flex-row items-center justify-between w-full px-4 md:px-10">
-          <div class="md:w-1/2 p-4">
-            <h1 class="text-4xl font-bold mb-4">Welcome to Our Travel Site</h1>
-            <p class="text-lg">
-              Discover amazing places around the world with us. We offer the best travel packages and experiences to
-              make your journey unforgettable.
-            </p>
-            <div class="flex justify-between w-full mt-8">
-              <button
-                class="px-6 py-2 bg-white text-purple-600 font-semibold rounded-lg hover:bg-purple-600 hover:text-white">Get
-                Started</button>
-              <button
-                class="px-6 py-2 bg-white text-purple-600 font-semibold rounded-lg hover:bg-purple-600 hover:text-white">Learn
-                More</button>
-            </div>
-          </div>
-          <div class="md:w-1/2 p-4 relative">
-            <img :src="'/public/image/—Pngtree—cruise ship ocean liner_14612961.png'" alt="Travel Image"
-              class="w-0 sm:w-full h-auto rounded-lg absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-          </div>
+  <!-- Navbar -->
+  <nav class="bg-white border-gray-200 z-[9999]">
+    <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+      <a href="https://flowbite.com/" class="flex items-center space-x-3 rtl:space-x-reverse">
+        <img src="/public/image/pngwing.com.png" class="h-8" alt="Flowbite Logo" />
+        <span class="self-center text-2xl font-semibold whitespace-nowrap">Travel Vue.Js ||<strong>Current route
+            path:</strong> {{ $route.fullPath }}</span>
+      </a>
+      <button data-collapse-toggle="navbar-default" type="button"
+        class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 "
+        aria-controls="navbar-default" aria-expanded="false">
+        <span class="sr-only">Open main menu</span>
+        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M1 1h15M1 7h15M1 13h15" />
+        </svg>
+      </button>
+      <div class="hidden w-full md:block md:w-auto" id="navbar-default">
+        <ul
+          class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white ">
+            <li>
+            <router-link :to="{ name: 'home' }"
+              class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-purple-700 md:p-2"
+              aria-current="page" active-class="text-white bg-purple-700">Home</router-link>
+            </li>
+            <li>
+            <router-link to="about"
+              class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-purple-700 md:p-2"
+              active-class="text-white bg-purple-700">About</router-link>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Content -->
+  <main>
+    <!-- Tampilkan loading spinner -->
+    <div v-if="isLoading" class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-white z-50">
+      <div class="loader"></div>
+    </div>
+
+    <!-- Tambahkan transition -->
+    <router-view v-slot="{ Component }">
+      <transition name="fade">
+        <component :is="Component" />
+      </transition>
+    </router-view>
+  </main>
+
+
+  <!-- Footer -->
+  <footer class=" divide-y bg-white border-t shadow-2xl">
+    <div class="container flex flex-col justify-between py-10 mx-auto space-y-8 lg:flex-row lg:space-y-0">
+      <div class="lg:w-1/3">
+        <a rel="noopener noreferrer" href="#" class="flex justify-center space-x-3 lg:justify-start">
+          <!-- <ApplicationLogo class="w-10 object-cover"/> -->
+        </a>
+      </div>
+      <div class="grid grid-cols-2 text-sm gap-x-3 gap-y-8 lg:w-2/3 sm:grid-cols-2">
+        <div class="space-y-3">
+          <h3 class="tracking-wide uppercase font-semibold">Jadwal Pelayanan Puskesmas</h3>
+          <ul class="space-y-5">
+            <li>
+              <a rel="noopener noreferrer" href="#">Senin-Kamis : 07.30-15.00 WIB</a>
+            </li>
+            <li>
+              <a rel="noopener noreferrer" href="#">Jumat : 07.30-15.30 WIB</a>
+            </li>
+            <li>
+              <a rel="noopener noreferrer" href="#">Unit Pelayanan Bersalin 24 Jam</a>
+            </li>
+          </ul>
+        </div>
+        <div class="space-y-3">
+          <h3 class="uppercase">Hubungi Kami</h3>
+          <ul class="space-y-1">
+            <li class="flex gap-4">
+              <!-- <font-awesome-icon :icon="['fas', 'location-dot']"/> -->
+            </li>
+            <li class="flex gap-4">
+              <!-- <font-awesome-icon :icon="['fas', 'phone']"/> -->
+              <span>+62 85255814561</span>
+            </li>
+          </ul>
         </div>
       </div>
-    </section>
-
-    <!-- Card product travel Schedul -->
-    <section id="travel-schedule" class="container mx-auto py-8 px-5">
-      <h2 class="text-3xl font-bold mb-6 text-center">Travel Schedules</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <CardTravel v-for="schedule in travelSchedules" :key="schedule.id" :image="schedule.image" :title="schedule.title"
-          :price="schedule.price" :quota="schedule.quota" :description="schedule.description" />
-      </div>
-    </section>
-  </MainLayout>
+    </div>
+    <div class="py-6 text-sm text-center bg-primary">UPT Puskesmas Karassing© 2025. All rights reserved.</div>
+  </footer>
 </template>
+
+
+<style>
+/* Efek transisi fade */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+/* Loader styling */
+.loader {
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #3498db;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+</style>

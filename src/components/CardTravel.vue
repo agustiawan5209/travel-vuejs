@@ -28,7 +28,7 @@ export default {
             required: true
         },
         quota: {
-            type: String,
+            type: Number,
             required: true
         },
         description: {

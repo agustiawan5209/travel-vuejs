@@ -22,8 +22,8 @@ import Register from "../auth/Register.vue";
 
 // Komponen Admin
 import DashboardAdmin from "../views/admin/Dashboard.vue";
-import DestinasiIndex from "../views/admin/Destinasi/Index.vue";
 import JadwalTravelIndex from "../views/admin/Travel/Index.vue";
+import JadwalLaporanTravel from "../views/admin/Travel/Laporan.vue";
 
 // Komponen User
 import UserDashboard from "../views/users/Dashboard.vue";
@@ -142,21 +142,20 @@ const routes = [
                     breadcrumb: 'Dashboard',
                 }
             },
-            // router Destinasi
-            {
-                path: 'destinasi',
-                name: 'destinasi.index',
-                component: DestinasiIndex,
-                meta: {
-                    breadcrumb: 'destinasi',
-                }
-            },
             {
                 path: 'travel',
                 name: 'travel.index',
                 component: JadwalTravelIndex,
                 meta: {
                     breadcrumb: 'Jadwal travel',
+                }
+            },
+            {
+                path: 'travel/laporan',
+                name: 'travel.laporan',
+                component: JadwalLaporanTravel,
+                meta: {
+                    breadcrumb: 'Laporan Jadwal travel',
                 }
             }
             // End Router Destinasi

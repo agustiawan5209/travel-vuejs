@@ -56,18 +56,14 @@ const breadcrumbs = computed(() => {
                   class="block py-2 px-4 text-base md:text-lg rounded hover:bg-gray-700 hover:text-gray-300 transition duration-300">Dashboard</router-link>
               </li>
               <li class="mb-4">
-                <router-link :to="{ name: 'destinasi.index' }"
-                  class="block py-2 px-4 text-base md:text-lg rounded hover:bg-gray-700 hover:text-gray-300 transition duration-300">Destinasi
-                </router-link>
-              </li>
-              <li class="mb-4">
                 <router-link :to="{ name: 'travel.index' }"
                   class="block py-2 px-4 text-base md:text-lg rounded hover:bg-gray-700 hover:text-gray-300 transition duration-300">Jadwal Travel
                 </router-link>
               </li>
               <li class="mb-4">
-                <a href="#"
-                  class="block py-2 px-4 text-base md:text-lg rounded hover:bg-gray-700 hover:text-gray-300 transition duration-300">Settings</a>
+                <router-link :to="{ name: 'travel.laporan' }"
+                  class="block py-2 px-4 text-base md:text-lg rounded hover:bg-gray-700 hover:text-gray-300 transition duration-300">Laporan Travel
+                </router-link>
               </li>
             </ul>
           </nav>

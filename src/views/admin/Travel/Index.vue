@@ -21,7 +21,7 @@ const itemID = ref('');
 const displayJadwalTravel = async () => {
   try {
     const response = await axios.get('/api/travel');
-    jadwalTravel.value = response.data;
+    jadwalTravel.value = response.data.data;
   } catch (error) {
     console.log(error.response?.data?.message || "Failed to load data");
   } finally {
@@ -109,24 +109,24 @@ const deleteData = async () => {
             <table class="min-w-full divide-y divide-gray-200">
               <thead>
                 <tr>
-                  <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">No. </th>
-                  <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Destinasi</th>
-                  <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Tanggal</th>
-                  <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Jam</th>
-                  <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Harga Tiket</th>
-                  <th scope="col" class="px-6 py-3 text-end text-xs font-medium text-gray-500 uppercase">Kuota Penumpang</th>
-                  <th scope="col" class="px-6 py-3 text-end text-xs font-medium text-gray-500 uppercase">Aksi</th>
+                  <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">No. </th>
+                  <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Destinasi</th>
+                  <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Tanggal</th>
+                  <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Jam</th>
+                  <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Harga Tiket</th>
+                  <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Kuota Penumpang</th>
+                  <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Aksi</th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-gray-200">
                 <tr v-for="(item, index) in jadwalTravel" :key="index" class="hover:bg-gray-100">
-                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">{{ index + 1 }}</td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{{ item.destinasi }}</td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{{ item.tanggal }}</td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{{ item.waktu }}</td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{{ item.harga_tiket }}</td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{{ item.kuota }}</td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                  <td class="px-6 py-4 text-center whitespace-nowrap text-sm font-medium text-gray-800">{{ index + 1 }}</td>
+                  <td class="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-800">{{ item.destinasi }}</td>
+                  <td class="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-800">{{ item.tanggal }}</td>
+                  <td class="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-800">{{ item.waktu }}</td>
+                  <td class="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-800">{{ item.harga_tiket }}</td>
+                  <td class="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-800">{{ item.kuota }}</td>
+                  <td class="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-800">
                    <div class="flex gap-4">
                     <button type="button" @click="showModalEdit(item)"
                     class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-green-600 hover:text-green-800 focus:outline-none focus:text-green-800 disabled:opacity-50 disabled:pointer-events-none">

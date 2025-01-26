@@ -104,6 +104,10 @@ const routes = [
                 const user = JSON.parse(localStorage.getItem('user'));
                 if(user.role == 'penumpang') {
                     next(); // Allow to enter route
+                }else {
+                    localStorage.removeItem('user');
+                    localStorage.removeItem('token');
+                    next('/login'); // Go to '/login';
                 }
             } else {
                 next('/login'); // Go to '/login';
@@ -131,6 +135,10 @@ const routes = [
                 const user = JSON.parse(localStorage.getItem('user'));
                 if(user.role == 'admin') {
                     next(); // Allow to enter route
+                }else {
+                    localStorage.removeItem('user');
+                    localStorage.removeItem('token');
+                    next('/login'); // Go to '/login';
                 }
             } else {
                 next('/login'); // Go to '/login';

@@ -3,6 +3,9 @@ import { ref, onMounted } from 'vue';
 import axios from '../../../axios';
 import Modal from '../../../components/Modal.vue';
 import FlashMessage from '../../../components/FlashMessage.vue';
+import FormEdit from './Form.vue';
+
+
 const isLoading = ref(false);
 if (isLoading.value) {
   setTimeout(() => {
@@ -12,6 +15,8 @@ if (isLoading.value) {
 
 const destinasi = ref([]);
 const requestMessage = ref('')
+const itemID = ref('');
+
 
 // fungsi untuk menampilkan data
 const displayDestinasi = async () => {
@@ -32,39 +37,17 @@ onMounted(async () => {
 });
 
 // Modal Tambah Data
-const modalTambahData = ref(false);
+const ModalShowData = ref(false);
 
-const closeModalTambahData = () => {
-  modalTambahData.value = false;
+const closeModalData = () => {
+  ModalShowData.value = false;
 };
 
-const FormTambahData = ref({
-  image: '',
-  nama: '',
-  deskripsi: '',
-});
 
+// Handle File Change
 const handleFileChange = (e) => {
-  FormTambahData.value.image = e.target.files[0];
+  FormInputData.value.image = e.target.files[0];
 }
-// Fungsi  Simpan data
-const submitTambahData = async () => {
-  try {
-    const response = await axios.post('/api/destinasi', FormTambahData.value, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-    displayDestinasi();
-
-    requestMessage.value = response.data.message;
-
-    closeModalTambahData();
-  } catch (error) {
-    console.log(error.response?.data?.message || "Failed to save data");
-  }
-};
-
 
 // variabel modal hapus data
 const deleteModal = ref(false)
@@ -78,6 +61,8 @@ const showDeleteModal = (id) => {
 const closeModalDelete = () => {
   deleteModal.value = false
 }
+
+
 // Fungsi Hapus Data
 const deleteData = async () => {
   try {
@@ -91,10 +76,65 @@ const deleteData = async () => {
   }
 };
 
+
+// fungsi untuk mengedit data
+const showEditModal = (item) => {
+  FormInputData.value.deskripsi = item.deskripsi;
+  FormInputData.value.nama = item.nama;
+  ModalShowData.value = true;
+
+  itemID.value = item.id;
+};
+
+const FormInputData = ref({
+  image: '',
+  nama: '',
+  deskripsi: '',
+});
+
+// Fungsi  Simpan data
+const submitData = async () => {
+  const createFormInputData = () => {
+    const formdata = new FormData();
+    formdata.append('image', FormInputData.value.image);
+    formdata.append('nama', FormInputData.value.nama);
+    formdata.append('deskripsi', FormInputData.value.deskripsi);
+    return formdata;
+  };
+
+  try {
+    await axios.get('/sanctum/csrf-cookie');
+    if (itemID.value) {
+
+      const response = await axios.put(`/api/destinasi/${itemID.value}`, createFormInputData(), {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      requestMessage.value = response.data.message;
+    } else {
+      const response = await axios.post('/api/destinasi', createFormInputData(), {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      requestMessage.value = response.data.message;
+    }
+    displayDestinasi();
+
+    closeModalData();
+  } catch (error) {
+    console.log(error)
+    console.log(error.response?.data?.message || "Failed to save data");
+  }
+};
+
 </script>
 
 <template>
-<!-- modal untuk hapus data -->
+
+  <!-- end Edit Modal -->
+  <!-- modal untuk hapus data -->
   <Modal :show="deleteModal" @close="closeModalDelete">
     <div class="flex flex-col max-w-full gap-2 p-6 rounded-md shadow-md bg-gray-50 text-gray-800">
       <h2 class="flex items-center gap-2 text-xl font-semibold leading-tight tracking-wide">
@@ -110,16 +150,17 @@ const deleteData = async () => {
       </h2>
       <!-- <p class="flex-1 text-gray-600">Mauris et lorem at elit tristique dignissim et ullamcorper elit. In sed feugiat mi. Etiam ut lacinia dui.</p> -->
       <div class="flex flex-col justify-end gap-3 mt-6 sm:flex-row">
-        <button class="px-6 py-2 rounded-sm shadow-sm bg-violet-600 text-gray-50 cursor-pointer" type="button" @click="deleteData()">Ya</button>
+        <button class="px-6 py-2 rounded-sm shadow-sm bg-violet-600 text-gray-50 cursor-pointer" type="button"
+          @click="deleteData()">Ya</button>
       </div>
     </div>
   </Modal>
 
   <!-- Modal untuk tambah data -->
-  <Modal :show="modalTambahData" @close="closeModalTambahData">
+  <Modal :show="ModalShowData" @close="closeModalData">
     <div class="bg-white p-8 rounded-lg shadow-md w-full">
       <h2 class="text-lg font-semibold mb-4">Tambah Data</h2>
-      <form @submit.prevent="submitTambahData">
+      <form @submit.prevent="submitData">
         <!-- <div v-if="message" class="mt-4 text-green-600">{{ message }}</div> -->
         <div class="mb-4">
           <input type="file" accept="image/*" @change="handleFileChange"
@@ -127,16 +168,16 @@ const deleteData = async () => {
         </div>
         <div class="mb-4">
           <label for="nama" class="block text-sm font-medium text-gray-700">Nama</label>
-          <input type="text" id="nama" name="nama" v-model="FormTambahData.nama" required
+          <input type="text" id="nama" name="nama" v-model="FormInputData.nama" required
             class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
         </div>
         <div class="mb-4">
           <label for="deskripsi" class="block text-sm font-medium text-gray-700">Deskripsi</label>
-          <textarea id="deskripsi" name="deskripsi" rows="3" v-model="FormTambahData.deskripsi"
+          <textarea id="deskripsi" name="deskripsi" rows="3" v-model="FormInputData.deskripsi"
             class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"></textarea>
         </div>
         <div class="flex justify-end">
-          <button type="button" @click="closeModalTambahData"
+          <button type="button" @click="closeModalData"
             class="py-2 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-gray-600 hover:text-gray-800 focus:outline-none focus:text-gray-800 disabled:opacity-50 disabled:pointer-events-none">Cancel</button>
           <button type="submit"
             class="py-2 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">Save</button>
@@ -150,7 +191,7 @@ const deleteData = async () => {
 
         <FlashMessage :message="requestMessage" v-if="requestMessage" />
 
-        <button @click="modalTambahData = true" type="button"
+        <button @click="ModalShowData = true" type="button"
           class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
           Tambah Data
         </button>
@@ -177,7 +218,7 @@ const deleteData = async () => {
                   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{{ item.deskripsi }}</td>
                   <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
                     <div class="flex gap-4">
-                      <button type="button" @click="deleteData(item.id)"
+                      <button type="button" @click="showEditModal(item)"
                         class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-green-600 hover:text-green-800 focus:outline-none focus:text-green-800 disabled:opacity-50 disabled:pointer-events-none">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                           stroke="currentColor" class="size-6">

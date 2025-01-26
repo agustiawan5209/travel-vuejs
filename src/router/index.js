@@ -21,6 +21,7 @@ import Register from "../auth/Register.vue";
 
 // Komponen Admin
 import DashboardAdmin from "../views/admin/Dashboard.vue";
+import DestinasiIndex from "../views/admin/Destinasi/Index.vue";
 const routes = [
 
     // Guest
@@ -33,35 +34,63 @@ const routes = [
                 path: '',
                 name: 'home',
                 component: Home,
+                meta: {
+                    breadcrumb: 'Home',
+                }
             },
             {
                 path: '/login',
                 name: 'login',
                 component: Login,
+                meta: {
+                    breadcrumb: 'Login',
+                }
             },
 
             {
                 path: '/register',
                 name: 'register',
                 component: Register,
+                meta: {
+                    breadcrumb: 'Register',
+                }
             },
             // User
             {
                 path: '/about',
                 name: 'about',
                 component: About,
+                meta: {
+                    breadcrumb: 'About',
+                }
             },
         ],
     },
     {
         path: '/admin',
-        component : AdminLayout,
-        children: [
-            {
+        component: AdminLayout,
+        meta: {
+            breadcrumb: 'Admin',
+        },
+        children: [{
                 path: 'dashboard',
                 name: 'dashboard',
-                component: () => DashboardAdmin
+                component: DashboardAdmin,
+
+                meta: {
+                    breadcrumb: 'Dashboard',
+                }
+            },
+            // router Destinasi
+            {
+                path: 'destinasi',
+                name: 'destinasi.index',
+                component: DestinasiIndex,
+                meta: {
+                    breadcrumb: 'destinasi',
+                }
             }
+            // End Router Destinasi
         ]
     }
 

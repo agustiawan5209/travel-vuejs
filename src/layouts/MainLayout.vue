@@ -62,7 +62,7 @@ import { isLoading } from '../router';
   <!-- Footer -->
   <footer class=" divide-y bg-white border-t shadow-2xl">
     
-    <div class="py-6 text-sm text-center bg-primary">Travel Vue.js ©2025. All rights reserved.</div>
+    <div class="py-6 text-center bg-primary text-white text-base">Travel Vue.js ©2025. All rights reserved.</div>
   </footer>
 </template>
 

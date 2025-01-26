@@ -101,7 +101,10 @@ const routes = [
         beforeEnter: (to, from, next) => {
             const isLoggedIn = !!localStorage.getItem('user');
             if (isLoggedIn) {
-                next(); // Allow to enter route
+                const user = JSON.parse(localStorage.getItem('user'));
+                if(user.role == 'penumpang') {
+                    next(); // Allow to enter route
+                }
             } else {
                 next('/login'); // Go to '/login';
             }
@@ -125,7 +128,10 @@ const routes = [
         beforeEnter: (to, from, next) => {
             const isLoggedIn = !!localStorage.getItem('user');
             if (isLoggedIn) {
-                next(); // Allow to enter route
+                const user = JSON.parse(localStorage.getItem('user'));
+                if(user.role == 'admin') {
+                    next(); // Allow to enter route
+                }
             } else {
                 next('/login'); // Go to '/login';
             }

@@ -28,6 +28,7 @@ import JadwalTravelIndex from "../views/admin/Travel/Index.vue";
 // Komponen User
 import UserDashboard from "../views/users/Dashboard.vue";
 import Checkout from "../views/users/Checkout.vue";
+import Invoice from "../components/Invoice.vue";
 
 const routes = [
 
@@ -77,14 +78,20 @@ const routes = [
                 beforeEnter: (to, from, next) => {
                     const isLoggedIn = !!localStorage.getItem('user');
                     if (isLoggedIn) {
-                      next(); // Allow to enter route
+                        next(); // Allow to enter route
                     } else {
-                      next('/login'); // Go to '/login';
+                        next('/login'); // Go to '/login';
                     }
-                  },
+                },
                 component: Checkout
             },
         ],
+        
+    },
+    {
+        path: '/invoice/:id',
+        name: 'user.invoice',
+        component: Invoice,
     },
 
     // USER
@@ -94,21 +101,22 @@ const routes = [
         beforeEnter: (to, from, next) => {
             const isLoggedIn = !!localStorage.getItem('user');
             if (isLoggedIn) {
-              next(); // Allow to enter route
+                next(); // Allow to enter route
             } else {
-              next('/login'); // Go to '/login';
+                next('/login'); // Go to '/login';
             }
-          },
+        },
         children: [
             {
                 path: 'dashboard',
                 name: 'user.dashboard',
                 component: UserDashboard,
             },
-            
+           
+
         ],
     },
-    
+
 
     // Admin
     {

@@ -7,12 +7,18 @@
           <p class="text-gray-600 mb-4">Jumlah Kuota: {{ kuota }}</p>
           <p class="text-gray-600 mb-4">Tanggal/Waktu: {{ tanggal }} / {{ waktu }}</p>
         </div>
-        <router-link
+        <router-link v-if="kuota > 0"
           :to="{ name: 'checkout', params: {id: id, travel: destinasi } }"
           class="px-6 py-2 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700"
         >
           Pesan Sekarang
         </router-link>
+        <a v-else 
+          href="#"
+          class="px-6 py-2 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 opacity-50"
+        >
+          Pesan Sekarang
+        </a>
       </div>
     </div>
   </template>

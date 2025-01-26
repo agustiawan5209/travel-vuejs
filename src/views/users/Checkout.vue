@@ -3,7 +3,7 @@ import { ref, computed, onMounted } from "vue";
 import axios from "../../axios";
 import { useRoute, useRouter } from "vue-router";
 
-const isLoading =ref(false)
+const isLoading = ref(false)
 const userData = computed(() => {
     return JSON.parse(localStorage.getItem('user'));
 });
@@ -40,7 +40,9 @@ const formatRupiah = (number) =>
         currency: "IDR",
     }).format(number);
 
-    const tanggal = new Date();
+const tanggal = new Date();
+
+const InputPayment = ref("");
 // Fungsi untuk mengirim data pemesanan
 const submitOrder = async () => {
     console.log(userData.value.id)
@@ -48,18 +50,21 @@ const submitOrder = async () => {
         await axios.get('/sanctum/csrf-cookie');
         const response = await axios.post("/api/checkout", {
             user_id: userData.value.id,
-            jadwal_id : travel.value.id,
+            jadwal_id: travel.value.id,
             tanggal: tanggal.toISOString().split('T')[0],
             total_bayar: travel.value.harga_tiket,
+            status: InputPayment.value,
         });
 
         alert(response.data.message);
-        router.push({name: 'user.dashboard', params:{id: userData.value.id}})
+        router.push({ name: 'user.dashboard', params: { id: userData.value.id } })
     } catch (error) {
         console.error(error.response?.data || error.message);
         alert("Gagal mengonfirmasi pesanan.");
     }
 };
+
+
 </script>
 
 <template>
@@ -90,6 +95,17 @@ const submitOrder = async () => {
             <div>
                 <h2 class="text-lg font-semibold mb-2">Konfirmasi Pembayaran</h2>
                 <form @submit.prevent="submitOrder">
+                    <div class="mb-4">
+                        <label for="konfirmasi" class="block text-sm font-medium text-gray-700">Konfirmasi
+                            Pembayaran</label>
+                        <select id="konfirmasi" v-model="InputPayment" name="konfirmasi"
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            required>
+                            <option value="" disabled selected>Pilih Konfirmasi</option>
+                            <option value="PAID">Sudah Dibayar</option>
+                            <option value="UNPAID">Belum Dibayar</option>
+                        </select>
+                    </div>
                     <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">
                         Konfirmasi Pembayaran
                     </button>

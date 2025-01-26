@@ -44,27 +44,11 @@ const logout = async () => {
             <!-- Main Content -->
             <div class="flex flex-1 shadow-2xl">
                 <!-- Sidebar -->
-                <transition name="slide-left">
-                    <aside v-show="isSidebarVisible || isLargeScreen" class="bg-primary text-white w-64 p-6 md:block">
-                        <nav>
-                            <ul>
-
-                                <li class="mb-4">
-                                    <a href="#"
-                                        class="block py-2 px-4 text-base md:text-lg rounded hover:bg-gray-700 hover:text-gray-300 transition duration-300">Settings</a>
-                                </li>
-                                <li class="mb-4">
-                                    <button
-                                        class="block py-2 px-4 text-base md:text-lg rounded hover:bg-gray-700 hover:text-gray-300 transition duration-300"
-                                        @click="logout">Logout</button>
-
-                                </li>
-                            </ul>
-                        </nav>
-                    </aside>
-                </transition>
 
                 <main class="flex-1 bg-gray-100 p-6">
+                    <button
+                        class="block py-2 px-4 text-base md:text-lg rounded bg-primary text-white hover:bg-gray-700 hover:text-gray-300 transition duration-300"
+                        @click="logout">Logout</button>
                     <nav aria-label="breadcrumb" class="mb-4">
                         <ol class="flex items-center whitespace-nowrap">
                             <li v-for="(crumb, index) in breadcrumbs" :key="index" class="inline-flex items-center">

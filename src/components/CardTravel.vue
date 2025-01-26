@@ -1,12 +1,13 @@
 <template>
     <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-        <img :src="image" alt="Destination Image" class="w-full h-48 object-cover">
-        <div class="p-6">
-            <h3 class="text-xl font-semibold mb-2">{{ title }}</h3>
-            <p class="text-gray-600 mb-4">Price: {{ price }}</p>
-            <p class="text-gray-600 mb-4">Passenger Quota: {{ quota }}</p>
-            <p class="text-gray-600 mb-4">Description: {{ description }}</p>
-            <button class="px-6 py-2 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700">Book Now</button>
+        <div class="p-6 flex items-center justify-between">
+            <div class="block">
+                <h3 class="text-xl font-semibold mb-2">{{ destinasi }}</h3>
+                <p class="text-gray-600 mb-4">Harga Tiket: {{ formatRupiah(harga_tiket) }}</p>
+                <p class="text-gray-600 mb-4">Jumlah Kuota: {{ kuota }}</p>
+                <p class="text-gray-600 mb-4">Tanggal/Waktu: {{ tanggal }} / {{waktu}}</p>
+            </div>
+            <button class="px-6 py-2 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700">Pesan Sekarang</button>
         </div>
     </div>
 </template>
@@ -15,25 +16,33 @@
 export default {
     name: 'CardTravel',
     props: {
-        image: {
+        destinasi: {
             type: String,
             required: true
         },
-        title: {
+        harga_tiket: {
             type: String,
             required: true
         },
-        price: {
-            type: String,
-            required: true
-        },
-        quota: {
+        kuota: {
             type: Number,
             required: true
         },
-        description: {
+        tanggal:{
             type: String,
-            required: true
+            required :true,
+        },
+        waktu:{
+            type: String,
+            required :true,
+        }
+    },
+    methods: {
+        formatRupiah(number) {
+            return new Intl.NumberFormat("id-ID", {
+                style: "currency",
+                currency: "IDR",
+            }).format(number);
         }
     }
 }

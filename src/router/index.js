@@ -11,6 +11,7 @@ export const isLoading = ref(false);
 // Layout
 import AdminLayout from "../layouts/AdminLayout.vue";
 import MainLayout from "../layouts/MainLayout.vue";
+import UserLayout from "../layouts/UserLayout.vue";
 
 // Komponen
 import About from "../views/About.vue";
@@ -23,6 +24,10 @@ import Register from "../auth/Register.vue";
 import DashboardAdmin from "../views/admin/Dashboard.vue";
 import DestinasiIndex from "../views/admin/Destinasi/Index.vue";
 import JadwalTravelIndex from "../views/admin/Travel/Index.vue";
+
+// Komponen User
+import UserDashboard from "../views/users/Dashboard.vue";
+
 const routes = [
 
     // Guest
@@ -56,7 +61,6 @@ const routes = [
                     breadcrumb: 'Register',
                 }
             },
-            // User
             {
                 path: '/about',
                 name: 'about',
@@ -67,9 +71,40 @@ const routes = [
             },
         ],
     },
+
+    // USER
+    {
+        path: '/user/:id',
+        component: UserLayout,
+        beforeEnter: (to, from, next) => {
+            const isLoggedIn = !!localStorage.getItem('user');
+            if (isLoggedIn) {
+              next(); // Allow to enter route
+            } else {
+              next('/login'); // Go to '/login';
+            }
+          },
+        children: [
+            {
+                path: 'dashboard',
+                name: 'user.dashboard',
+                component: UserDashboard,
+            }
+        ],
+    },
+
+    // Admin
     {
         path: '/admin',
         component: AdminLayout,
+        beforeEnter: (to, from, next) => {
+            const isLoggedIn = !!localStorage.getItem('user');
+            if (isLoggedIn) {
+                next(); // Allow to enter route
+            } else {
+                next('/login'); // Go to '/login';
+            }
+        },
         meta: {
             breadcrumb: 'Admin',
         },

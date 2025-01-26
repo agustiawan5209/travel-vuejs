@@ -45,8 +45,8 @@ import SpinningDots from '../components/SpinningDots.vue';
 export default {
     data() {
         return {
-            email: '',
-            password: '',
+            email: 'mila@gmail.com',
+            password: 'password',
             flashMessage: '',
             loading: false
         };
@@ -64,11 +64,17 @@ export default {
                     email: this.email,
                     password: this.password
                 });
-                const token = response.data.token;
+                console.log(response.data);
+                const token = response.data.access_token;
                 // Simpan token ke localStorage
                 localStorage.setItem('token', token);
                 // Redirect ke halaman dashboard
-                this.$router.push('/admin/dashboard');
+                const user = response.data.user.role;
+                if (user == 'Admin') {
+                    this.$router.push('/admin/dashboard');
+                } else {
+                    this.$router.push('/');
+                }
             } catch (error) {
                 this.flashMessage = error.response.data.message;
             } finally {

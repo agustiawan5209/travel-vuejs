@@ -81,7 +81,11 @@ export default {
                 });
 
                 const token = response.data.access_token;
+                const user = response.data.user;
+                // Simpan token ke localStorage
                 localStorage.setItem('token', token);
+                localStorage.setItem('user', JSON.stringify(user));
+                localStorage.setItem('isLogin', true);
 
                 this.$router.push('/');
 

@@ -22,6 +22,7 @@ import Register from "../auth/Register.vue";
 // Komponen Admin
 import DashboardAdmin from "../views/admin/Dashboard.vue";
 import DestinasiIndex from "../views/admin/Destinasi/Index.vue";
+import JadwalTravelIndex from "../views/admin/Travel/Index.vue";
 const routes = [
 
     // Guest
@@ -88,6 +89,14 @@ const routes = [
                 component: DestinasiIndex,
                 meta: {
                     breadcrumb: 'destinasi',
+                }
+            },
+            {
+                path: 'travel',
+                name: 'travel.index',
+                component: JadwalTravelIndex,
+                meta: {
+                    breadcrumb: 'Jadwal travel',
                 }
             }
             // End Router Destinasi

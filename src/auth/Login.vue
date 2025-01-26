@@ -64,13 +64,16 @@ export default {
                     email: this.email,
                     password: this.password
                 });
-                console.log(response.data);
                 const token = response.data.access_token;
+                const user = response.data.user;
                 // Simpan token ke localStorage
                 localStorage.setItem('token', token);
+                localStorage.setItem('user', JSON.stringify(user));
+                localStorage.setItem('isLogin', true);
+
                 // Redirect ke halaman dashboard
-                const user = response.data.user.role;
-                if (user == 'Admin') {
+                const role = user.role;
+                if (role == 'Admin') {
                     this.$router.push('/admin/dashboard');
                 } else {
                     this.$router.push('/');

@@ -61,6 +61,11 @@ const breadcrumbs = computed(() => {
                 </router-link>
               </li>
               <li class="mb-4">
+                <router-link :to="{ name: 'travel.index' }"
+                  class="block py-2 px-4 text-base md:text-lg rounded hover:bg-gray-700 hover:text-gray-300 transition duration-300">Jadwal Travel
+                </router-link>
+              </li>
+              <li class="mb-4">
                 <a href="#"
                   class="block py-2 px-4 text-base md:text-lg rounded hover:bg-gray-700 hover:text-gray-300 transition duration-300">Settings</a>
               </li>

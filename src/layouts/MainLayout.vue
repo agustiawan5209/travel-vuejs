@@ -1,6 +1,6 @@
 <script setup>
 import { isLoading } from '../router';
-
+import userData from '../userdata';
 </script>
 <template>
   <!-- Navbar -->
@@ -40,13 +40,16 @@ import { isLoading } from '../router';
             About
           </router-link>
         </li>
-        <li>
+        <li v-if="userData == null">
           <router-link
             to="/login"
             class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-purple-700 md:p-2"
             exact-active-class="text-white bg-purple-700">
             Login
           </router-link>
+        </li>
+        <li>
+          Dashboard
         </li>
       </ul>
       

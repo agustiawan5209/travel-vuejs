@@ -33,7 +33,6 @@ onMounted(async () => {
   
 });
 
-console.log(travelSchedules.value)
 </script>
 
 <template>
@@ -59,12 +58,14 @@ console.log(travelSchedules.value)
         </div>
     </section>
 
+    <!--  -->
+    
     <!-- Card product travel Schedul -->
     <section id="travel-schedule" class="container mx-auto py-8 px-5" v-if="isLoading == false">
         <h2 class="text-3xl font-bold mb-6 text-center">Jadwal Travel</h2>
         <div class="grid grid-cols-1 gap-8">
-            <CardTravel v-for="schedule in travelSchedules" :key="schedule.id" :image="schedule.image"
-                :destinasi="schedule.destinasi" :harga_tiket="schedule.harga_tiket" :kuota="schedule.kuota"
+            <CardTravel v-for="schedule in travelSchedules" :key="schedule.id" 
+                :id="schedule.id" :destinasi="schedule.destinasi" :harga_tiket="schedule.harga_tiket" :kuota="schedule.kuota"
                 :tanggal="schedule.tanggal" :waktu="schedule.waktu" />
         </div>
     </section>
